@@ -1,0 +1,5 @@
+These are lxc bindings for python2.
+
+Build:      python setup.py build
+Install:    python setup.py install
+Build rpm:  python setup.py bdist_rpm
