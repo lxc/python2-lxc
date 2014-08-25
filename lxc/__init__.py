@@ -371,6 +371,14 @@ class Container(_lxc.Container):
         except KeyError:
             old_value = None
 
+        # Get everything to unicode with python2
+        if isinstance(value, str):
+            value = value.decode()
+        elif isinstance(value, list):
+            for i in range(len(value)):
+                if isinstance(value[i], str):
+                    value[i] = value[i].decode()
+
         # Check if it's a list
         def set_key(key, value):
             self.clear_config_item(key)
@@ -388,13 +396,13 @@ class Container(_lxc.Container):
         if key == "lxc.loglevel":
             new_value = value
 
-        if (isinstance(value, str) and isinstance(new_value, str) and
+        if (isinstance(value, unicode) and isinstance(new_value, unicode) and
                 value == new_value):
             return True
         elif (isinstance(value, list) and isinstance(new_value, list) and
                 set(value) == set(new_value)):
             return True
-        elif (isinstance(value, str) and isinstance(new_value, list) and
+        elif (isinstance(value, unicode) and isinstance(new_value, list) and
                 set([value]) == set(new_value)):
             return True
         elif old_value:
@@ -473,7 +481,7 @@ def arch_to_personality(arch):
         Determine the process personality corresponding to the architecture
     """
     if isinstance(arch, bytes):
-        arch = str(arch, 'utf-8')
+        arch = unicode(arch)
     return _lxc.arch_to_personality(arch)
 
 # namespace flags (no other python lib exports this)
