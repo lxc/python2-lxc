@@ -47,7 +47,8 @@ static int PyUnicode_FSConverter(PyObject *unicode, void *result)
 
 /* Helper functions */
 
-int lxc_wait_for_pid_status(pid_t pid)
+static int
+lxc_wait_for_pid_status(pid_t pid)
 {
     int status, ret;
 
@@ -63,7 +64,7 @@ again:
     return status;
 }
 
-char**
+static char**
 convert_tuple_to_char_pointer_array(PyObject *argv) {
     int argc;
     int i, j;
@@ -257,7 +258,8 @@ static lxc_attach_options_t *lxc_attach_parse_options(PyObject *kwds)
     return options;
 }
 
-void lxc_attach_free_options(lxc_attach_options_t *options)
+static void
+lxc_attach_free_options(lxc_attach_options_t *options)
 {
     int i;
     if (!options)
